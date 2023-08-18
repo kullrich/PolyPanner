@@ -2,10 +2,6 @@
 # refine assembly
 ######################################################################################################
 
-REFINE_CONTIGS?=$(OUTPUT_DIR)/contigs
-REFINE_SEGMENTS?=$(OUTPUT_DIR)/segments
-REFINE_BREAKPOINTS?=$(OUTPUT_DIR)/breakpoints
-
 refine:
 	bin//polypanner refine \
 	        -ifn $(POP_TABLE) \

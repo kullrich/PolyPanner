@@ -98,15 +98,21 @@ include mk/sites.mak
 include mk/trajectories.mak
 
 test:
-	@echo "######### constructing PP files #########"
+	@echo "###################################"
+	@echo "######### UNIT TEST START #########"
+	@echo "###################################\n"
+	@echo "######### 1. constructing PP files"
 	$(MAKE) construct_all
-	@echo "######### removing seqeuncing errors #########"
-	$(MAKE) merge filter restrict_all
-	@echo "######### refining assembly #########"
+	@echo "######### 2. removing seqeuncing errors"
+	$(MAKE) merge filter restrict_all make_lib_table
+	@echo "######### 3. refining assembly"
 	$(MAKE) refine
-	@echo "######### inferring genomes #########"
+	@echo "######### 4.inferring genomes"
 	$(MAKE) cov_matrix metaBAT post_metaBAT refine_bins
-	@echo "######### inferring sites #########"
+	@echo "######### 5. inferring sites"
 	$(MAKE) sites
-	@echo "######### output coverage trajectories #########"
+	@echo "######### 6. output coverage trajectories"
 	$(MAKE) bin_trajectory site_trajectory
+	@echo "##########################################"
+	@echo "######### UNIT TEST END: SUCCESS #########"
+	@echo "##########################################"

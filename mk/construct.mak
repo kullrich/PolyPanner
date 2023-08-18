@@ -2,21 +2,6 @@
 # constructing PP files
 ######################################################################################################
 
-# parse sam reads
-READS_R1?=$(OUTPUT_LIB_DIR)/R1.tab
-STATS_R1?=$(OUTPUT_LIB_DIR)/R1.stats
-READS_R2?=$(OUTPUT_LIB_DIR)/R2.tab
-STATS_R2?=$(OUTPUT_LIB_DIR)/R2.stats
-
-# pair reads
-READS_PAIRED?=$(OUTPUT_LIB_DIR)/paired
-READS_NON_PAIRED_R1?=$(OUTPUT_LIB_DIR)/non_paired_R1
-READS_NON_PAIRED_R2?=$(OUTPUT_LIB_DIR)/non_paired_R2
-PAIR_STATS?=$(OUTPUT_LIB_DIR)/pair.stats
-
-# PP file
-LIB_POP?=$(OUTPUT_LIB_DIR)/lib.pop
-
 # parse and pair SAM files 
 parse_sam:
 	mkdir -p $(OUTPUT_LIB_DIR)

@@ -1,3 +1,22 @@
+# polypanner syntax
+
+All polypanner commands are called through the ```polypanner`` program. For example, to construct a POP file call:
+
+```
+bin/polypanner construct
+        -ifn_paired output/test/t1/paired
+        -ifn_R1 output/test/t1/non_paired_R1
+        -ifn_R2 output/test/t1/non_paired_R2
+        -contig_table input/test/contig_table
+        -discard_clipped discard_both
+        -min_score 30
+        -min_length 50
+        -max_edit 20
+        -trim 20
+        -unique_only T
+        -ofn output/test/t1/lib.pop
+```
+
 ## construct
 
 Construct POP from mapped reads.

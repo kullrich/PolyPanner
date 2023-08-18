@@ -28,3 +28,10 @@ restrict:
 
 restrict_all:
 	$(foreach S,$(SAMPLES),$(MAKE) restrict SAMPLE=$S && ) true
+
+make_lib_table:
+	Rscript utils/make_pop_table.r \
+		$(OUTPUT_DIR) \
+		restricted.pop \
+		$(POP_TABLE) \
+		$(SAMPLES)

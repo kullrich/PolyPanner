@@ -33,24 +33,24 @@ cd PolyPanner
 make
 ```
 
-## Unit test
-
 To validate the installation you can run a unit test. Docker is required to run metaBAT2 during the unit test.
 
 ```
 make test
 ```
 
-The unit test runs on a small mock dataset generated with these parameters:
-- 3 genomes, 10kb each, 10 mutations per genome
-- 4 timepoints
-- mean coverage of 100x per genome per timepoint
+The unit test runs on a small mock dataset composed of 4 DNA libraries, each with ~20k paired reads (2x150nt). A recommended way to start using PolyPanner is to customize the commands in unit test. The bash commands can be printed by running a dry-run:
+
+```
+make test -n
+```
+
+Alternatively, one can explore the makefiles in the mk directory.
 
 ## Workflow overview
 
-The following is a standard workflow. 
 
-Syntanx for all commands is documented [here](docs/syntax.md).
+The standard workflow is detailed here. The complete syntanx of the major PolyPanner commands is documented [here](docs/syntax.md).
 
 ### Input
 
