@@ -4,7 +4,7 @@ PolyPanner is a suite of algorithms that fascilate the detection of polymorphic 
 
 As input, PolyPanner receives a set of shotgun DNA libraries that were aligned to a metagenomic co-assembly. As a form of data representation, alignments are transformed to single-nucleotide coverage vectors that represent library-specific read counts of perfect and mismatch alignments at each base pair in the co-assembly. 
 Tasks performed by PolyPanner are:
-- The modelling and removal of sequencing errors in reads.
+- The modelling and removal of sequencing errors.
 - The refinement of assembly contigs into segments, through the introduction of breakpoints where there are aprupt transitions in coverage. These transitions likely reflect chimeric assembly breakpoints where the two sides of the breakpoint represent different populations. 
 - The refinement of genome bins, by trimming-out segments that differ in their coverage profiles.
 - The identification of *dynamic variants*.
@@ -33,7 +33,7 @@ cd PolyPanner
 make
 ```
 
-To validate the installation you can run a unit test. Docker is required to run metaBAT2 during the unit test. The unit test runs on a small mock dataset composed of 4 DNA libraries, each with ~20k paired reads (2x150nt). 
+To validate the installation you can run the following unit test. Docker is required to run metaBAT2 during the unit test. The unit test runs on a small mock dataset composed of 4 DNA libraries, each with ~20k paired reads (2x150nt). 
 
 ```
 make test
@@ -49,7 +49,7 @@ make test -n
 ## Workflow overview
 
 
-The standard PolyPanner workflow is detailed here below. The syntanx of PolyPanner commands and utility scripts is documented [here](docs/syntax.md). This includes all user-defined parameters.
+The standard PolyPanner workflow is detailed here below. The syntanx of PolyPanner commands and utility scripts, including user-defined parameters., is documented [here](docs/syntax.md).
 
 ### 1. Input
 
