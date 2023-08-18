@@ -1,6 +1,8 @@
 # PolyPanner
 
-PolyPanner is a suite of algorithms that fascilate the detewction of polymorphic variants in metagenomic assembled genomes. PolyPanner leverages dense temporal sampling to improve assembly quality and identify high confidence polymorphic variants. PolyPanner receives as input a set of shotgun libraries that were aligned to their co-assembly. It transforms the alignments to single-nucleotide coverage vectors that represent library-specific read counts of perfect and mismatch alignments at each base pair in the co-assembly, and that are stored in a custom format called pp. Tasks performed by PolyPanner are (1) contig refinement; (2) genome trimming; (3) removal of sequencing errors; and (4) identification of dynamic variants, which are a subset of all polymorphic variants.
+PolyPanner is a suite of algorithms that fascilate the detection of polymorphic variants in metagenomic assembled genomes. It leverages dense temporal sampling to improve assembly quality and identify high confidence polymorphic variants. 
+
+As input, PolyPanner receives a set of shotgun libraries that were aligned to their co-assembly. It transforms the alignments to single-nucleotide coverage vectors that represent library-specific read counts of perfect and mismatch alignments at each base pair in the co-assembly. Tasks performed by PolyPanner are (1) contig refinement; (2) genome trimming; (3) removal of sequencing errors; and (4) identification of dynamic variants, which are a subset of all polymorphic variants.
 
 PolyPanner was developed by Eitan Yaffe (eitan.yaffe@gmail.com).
 
@@ -19,18 +21,17 @@ apt-get update
 apt-get install git build-essential libgsl0-dev libboost-all-dev
 ```
 
-Clone the repository from github:
+Clone the repository from github, and compile PolyPanner:
 ```
 git clone https://github.com/eitanyaffe/PolyPanner.git
 cd PolyPanner
 make
 ```
 
-Docker is required to run metaBAT2 during the unit test.
-
 ## Unit test
 
-To validate the installation you can run a unit test:
+To validate the installation you can run a unit test. Docker is required to run metaBAT2 during the unit test.
+
 ```
 make test
 ```
