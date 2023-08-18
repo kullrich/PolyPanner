@@ -10,23 +10,55 @@ You will need to install gcc, gsl and boost.
 
 On MacOS run:
 ```
-brew install g++ gsl boost docker
+brew install g++ gsl boost
 ```
 
 On Ubuntu run:
 ```
 apt-get update
-apt-get install git docker build-essential libgsl0-dev
+apt-get install git build-essential libgsl0-dev libboost-all-dev
 ```
 
 Clone the repository from github:
 ```
 git clone https://github.com/eitanyaffe/PolyPanner.git
+cd PolyPanner
+make
 ```
 
-## Quick start
+Docker is required to run metaBAT2 during the unit test.
 
-## Commands
+## Unit test
+
+To validate the installation you can run a unit test:
+```
+make test
+```
+
+The unit test runs on a small mock dataset generated with these parameters:
+- 3 genomes, 10kb each, 10 mutations per genome
+- 4 timepoints
+- mean coverage of 100x per genome per timepoint
+
+## Command overview
+
+The following is a standard workflow.
+
+### Input
+
+### PP Construction
+
+### Removal of sequencing errors
+
+### Assembly refinement
+
+### Genome refinement 
+
+### Site annotation
+
+### Output
+
+## Syntax of commands
 
 ### construct
 
