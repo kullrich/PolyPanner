@@ -17,7 +17,7 @@ bin/polypanner construct \
         -ofn output/test/t1/lib.pop
 ```
 
-## construct
+## polypanner construct
 
 Construct POP from mapped reads.
 
@@ -43,7 +43,7 @@ discard_clipped options:
 - keep: discard reads clipped on both side
 ```
 
-## merge
+## polypanner merge
 
 Merge multiple CAVs.
 
@@ -51,7 +51,7 @@ Merge multiple CAVs.
 usage: polypanner merge <ofn> [ifn1 ifn2 ...]
 ```
 
-## filter
+## polypanner filter
 
 Infer sequencing error rates and true segregating sites.
 
@@ -69,7 +69,7 @@ usage: polypanner filter [options]
  -ofn_error_params <fn>: Output table with segregating sites (mandatory)
 ```
 
-## restrict
+## polypanner restrict
 
 Restrict CAV to a set of contigs.
 
@@ -80,7 +80,7 @@ usage: polypanner restrict [options]
  -ofn <fn>: Output CAV file (mandatory)
 ```
 
-## refine
+## polypanner refine
 
 Breakdown contigs into segments, on dangle coords with a transition in coverage distribution.
 
@@ -104,7 +104,7 @@ usage: polypanner refine [options]
  -contig <string>: Only single contig
 ```
 
-## cov_matrix
+## polypanner cov_matrix
 
 Generate coverage matrix for segments.
 
@@ -118,7 +118,7 @@ usage: polypanner cov_matrix [options]
  -ofn_mat <fn>: Output matrix with segments, bp-coverage and bp-variance (mandatory)
 ```
 
-## refine_bins
+## polypanner refine_bins
 
 Breakdown contigs into segments, on dangle coords with a transition in coverage distribution.
 
@@ -138,7 +138,7 @@ usage: polypanner refine_bins [options]
 ```
 
 
-## site_trajectory
+## polypanner site_trajectory
 
 Extract site trajectories.
 
@@ -151,7 +151,7 @@ usage: polypanner site_trajectory [options]
  -ofn_totals <fn>: output matrix with total counts (mandatory)
 ```
 
-## bin_trajectory
+## polypanner bin_trajectory
 
 Extract average bin trajectories.
 
@@ -162,7 +162,7 @@ usage: polypanner bin_trajectory [options]
  -ofn <fn>: output matrix with bin reads counts per sample (mandatory)
 ```
 
-## sites
+## polypanner sites
 
 ```
 usage: polypanner sites [options]
@@ -177,7 +177,7 @@ usage: polypanner sites [options]
  -ofn <fn>: output site file (mandatory)
 ```
 
-## fasta
+## polypanner fasta
 
 Create fasta files for bins.
 
@@ -188,4 +188,38 @@ usage: polypanner fasta [options]
  -ifn_segments <fn>: input segment file, with bin field (mandatory)
  -min_length <int>: minimal bin length
  -odir <fn>: output path (mandatory)
+```
+
+# Utility scripts
+
+## Rscript utils/bin_summary.r 
+
+Creates summary table of genome bins.
+
+```
+usage: utils/bin_summary.r <contig-bin table> <contigs> <contig field> <ofn>
+```
+
+## Rscript utils/make_pop_table.r 
+
+Creates table with paths to POP files.
+
+```
+usage: utils/make_pop_table.r <base dir> <filename> <ofn> <sample1> <sample2> ...
+```
+
+## perl utils/pair_reads.pl 
+
+Pair read sides into single table.
+
+```
+usage: utils/pair_reads.pl <read1 ifn> <read2 ifn> <select single mapped read with maximal field value> <ofn> <ofn stats>
+```
+
+## perl utils/parse_bwa_sam.pl 
+
+Parse bwa SAM output into the input format supported by PolyPanner.
+
+```
+usage: utils/parse_bwa_sam.pl <ifn> <ofn> <ofn stats>
 ```
