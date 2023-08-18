@@ -57,7 +57,7 @@ The workflow input is composed of:
 - A co-assembly with a contig fasta file and a contig table (fields: contig and length).
 - A set of mapped paired DNA libraries in the SAM format (mapped separately for R1 and R2).
 
-### 2. PP Construction
+### 2. POP construction
 
 For each library, SAM files are converted to an internal PolyPanner tabular format using the ```utils/parse_bwa_sam.pl``` script. Read sides are paired using the ```utils/pair_reads.pl``` script. Paired reads are transformed into POP files, whcihrepresent mapped reads in an effificient manner that allows quick queries on each library.
 .
