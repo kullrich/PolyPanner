@@ -164,6 +164,8 @@ usage: polypanner bin_trajectory [options]
 
 ## polypanner sites
 
+Annotate variant sites.
+
 ```
 usage: polypanner sites [options]
  -ifn_libs <fn>: table with multiple POP files (mandatory)
@@ -192,6 +194,22 @@ usage: polypanner fasta [options]
 
 # Utility scripts
 
+## perl utils/parse_bwa_sam.pl 
+
+Parse bwa SAM output into the input format supported by PolyPanner.
+
+```
+usage: utils/parse_bwa_sam.pl <ifn> <ofn> <ofn stats>
+
+## perl utils/pair_reads.pl 
+
+Pair read sides into single table.
+
+```
+usage: utils/pair_reads.pl <read1 ifn> <read2 ifn> <select single mapped read with maximal field value> <ofn> <ofn stats>
+```
+```
+
 ## Rscript utils/bin_summary.r 
 
 Creates summary table of genome bins.
@@ -206,20 +224,4 @@ Creates table with paths to POP files.
 
 ```
 usage: utils/make_pop_table.r <base dir> <filename> <ofn> <sample1> <sample2> ...
-```
-
-## perl utils/pair_reads.pl 
-
-Pair read sides into single table.
-
-```
-usage: utils/pair_reads.pl <read1 ifn> <read2 ifn> <select single mapped read with maximal field value> <ofn> <ofn stats>
-```
-
-## perl utils/parse_bwa_sam.pl 
-
-Parse bwa SAM output into the input format supported by PolyPanner.
-
-```
-usage: utils/parse_bwa_sam.pl <ifn> <ofn> <ofn stats>
 ```
