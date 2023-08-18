@@ -45,7 +45,7 @@ discard_clipped options:
 
 ## polypanner merge
 
-Merge multiple CAVs.
+Merge multiple POP files.
 
 ```
 usage: polypanner merge <ofn> [ifn1 ifn2 ...]
@@ -57,7 +57,7 @@ Infer sequencing error rates and true segregating sites.
 
 ```
 usage: polypanner filter [options]
- -ifn <fn>: CAV filename (mandatory)
+ -ifn <fn>: POP filename (mandatory)
  -threads <int>: Number of threads used
  -alpha <double>: False discovery rate
  -min_variant_count <int>: Minimal count of considered variant
@@ -71,13 +71,13 @@ usage: polypanner filter [options]
 
 ## polypanner restrict
 
-Restrict CAV to a set of contigs.
+Restrict POP to a set of contigs.
 
 ```
 usage: polypanner restrict [options]
- -ifn_cav <fn>: CAV filename (mandatory)
+ -ifn_cav <fn>: POP filename (mandatory)
  -ifn_sites <fn>: Table with variants (mandatory)
- -ofn <fn>: Output CAV file (mandatory)
+ -ofn <fn>: Output POP file (mandatory)
 ```
 
 ## polypanner refine
@@ -86,7 +86,7 @@ Breakdown contigs into segments, on dangle coords with a transition in coverage 
 
 ```
 usage: polypanner refine [options]
- -ifn <fn>: Table with multiple CAV files (mandatory)
+ -ifn <fn>: Table with multiple POP files (mandatory)
  -threads <int>: Number of threads (mandatory)
  -fdr <double>: False discovery rate
  -ofn_segments <fn>: output segment file (mandatory)
@@ -110,7 +110,7 @@ Generate coverage matrix for segments.
 
 ```
 usage: polypanner cov_matrix [options]
- -ifn_cavs <fn>: Table with multiple CAV files (mandatory)
+ -ifn_cavs <fn>: Table with multiple POP files (mandatory)
  -ifn_segs <fn>: Segment table (mandatory)
  -ifn_fasta <fn>: Contig fasta (mandatory)
  -actual_nts <T|F>: Actual nts or random nts used to avoid TNF usage) (mandatory)
@@ -124,7 +124,7 @@ Breakdown contigs into segments, on dangle coords with a transition in coverage 
 
 ```
 usage: polypanner refine_bins [options]
- -ifn_libs <fn>: Table with multiple CAV files (mandatory)
+ -ifn_libs <fn>: Table with multiple POP files (mandatory)
  -ifn_segments <fn>: input segment file (mandatory)
  -ifn_segments_binned <fn>: input table associating segments (1st column) to bins (2nd column) (mandatory)
  -ofn <fn>: output binning table (mandatory)
@@ -144,7 +144,7 @@ Extract site trajectories.
 
 ```
 usage: polypanner site_trajectory [options]
- -ifn_libs <fn>: Table with multiple CAV files (mandatory)
+ -ifn_libs <fn>: Table with multiple POP files (mandatory)
  -ifn_segments <fn>: input segment file, with bin field (mandatory)
  -ifn_sites <fn>: input table with sites (mandatory)
  -ofn_counts <fn>: output matrix with var counts (mandatory)
@@ -157,7 +157,7 @@ Extract average bin trajectories.
 
 ```
 usage: polypanner bin_trajectory [options]
- -ifn_libs <fn>: Table with multiple CAV files (mandatory)
+ -ifn_libs <fn>: Table with multiple POP files (mandatory)
  -ifn_segments <fn>: input table with binned segments (mandatory)
  -ofn <fn>: output matrix with bin reads counts per sample (mandatory)
 ```
@@ -166,7 +166,7 @@ usage: polypanner bin_trajectory [options]
 
 ```
 usage: polypanner sites [options]
- -ifn_libs <fn>: table with multiple CAV files (mandatory)
+ -ifn_libs <fn>: table with multiple POP files (mandatory)
  -ifn_sites <fn>: input site table (mandatory)
  -ifn_contigs <fn>: contig table (mandatory)
  -ifn_segments <fn>: segment table (mandatory)
