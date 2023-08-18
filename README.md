@@ -3,9 +3,9 @@
 PolyPanner is a suite of algorithms that fascilate the detection of polymorphic variants in metagenomic assembled genomes. It leverages dense temporal sampling to improve assembly quality and identify high confidence polymorphic variants, called *dynamic variants*, which are polymorphic variants with a non-constant frequency over time, after taking into account read sampling stochasticity. The remaining variants, which we call spurious variants, reflect either homology between distinct populations (*ortholog variants*) or homology within a population due to duplicated genes (*paralog variants*), and are considered noise for our purpose of tracking competing alleles within a single bacterial population.
 
 As input, PolyPanner receives a set of shotgun DNA libraries that were aligned to a metagenomic co-assembly. As a form of data representation, alignments are transformed to single-nucleotide coverage vectors that represent library-specific read counts of perfect and mismatch alignments at each base pair in the co-assembly. Tasks performed by PolyPanner are:
-(1) contig refinement.
-(2) genome trimming.
-(3) removal of sequencing errors; and (4) identification of dynamic variants.
+- contig refinement.
+- genome trimming.
+- removal of sequencing errors; and (4) identification of dynamic variants.
 
 PolyPanner was developed by Eitan Yaffe (eitan.yaffe@gmail.com).
 
