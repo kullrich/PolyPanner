@@ -1,4 +1,4 @@
-# polypanner syntax
+# PolyPanner commands
 
 All polypanner commands are called through the ``polypanner`` program. For example, to construct a POP file call:
 

@@ -33,36 +33,54 @@ cd PolyPanner
 make
 ```
 
-To validate the installation you can run a unit test. Docker is required to run metaBAT2 during the unit test.
+To validate the installation you can run a unit test. Docker is required to run metaBAT2 during the unit test. The unit test runs on a small mock dataset composed of 4 DNA libraries, each with ~20k paired reads (2x150nt). 
 
 ```
 make test
 ```
 
-The unit test runs on a small mock dataset composed of 4 DNA libraries, each with ~20k paired reads (2x150nt). A recommended way to start using PolyPanner is to customize the commands in unit test. The bash commands can be printed by running a dry-run:
+A recommended way to start using PolyPanner is by customizing the commands of the unit test. The bash commands can be printed by peforming a dry-run:
 
 ```
 make test -n
 ```
 
-Alternatively, one can explore the makefiles in the mk directory.
 
 ## Workflow overview
 
 
-The standard workflow is detailed here. The complete syntanx of the major PolyPanner commands is documented [here](docs/syntax.md).
+The standard PolyPanner workflow is detailed here below. The syntanx of PolyPanner commands and utility scripts is documented [here](docs/syntax.md). This includes all user-defined parameters.
 
 ### Input
 
+The workflow input is composed of:
+- A co-assembly with a contig fasta file and a contig table (fields: contig and length).
+- A set of mapped paired DNA libraries in the SAM format (mapped separately for R1 and R2).
+
 ### PP Construction
 
+For each library, SAM files are converted to an internal PolyPanner tabular format using the ```utils/parse_bwa_sam.pl``` script. Read sides are paired using the ```utils/pair_reads.pl``` script. Paired reads are transformed into POP files, whcihrepresent mapped reads in an effificient manner that allows quick queries on each library.
+.
 ### Removal of sequencing errors
+
+Libraries are merged into a single library using the ``polypanner merge`` command. Sequencing errors are identified and filtered out using the ``polypanner filter`` command. Libraries are resrticted to true segregrating sites using the ``polypanner restrict` command. A tab-delimited table with paths to the restricted libraries is generated using the ``utils/make_pop_table.r`` script.
 
 ### Assembly refinement
 
+Contigs are refined into segments using the ``polypanner refine`` command.
+
+### Genome binning 
+
+A segment coverage matrix is generated using the ``polypanner cov_matrix``. This matrix is compatible with metaBAT2. The output of the binning step is a tab-delimited segment-bin table  with 2 columns: segment and bin. The workflow can support other binning methods, just make sure to generate a segment-bin table. 
+
 ### Genome refinement 
+
+The segment-bin table is processed using the ``utils/bin_summary.r`` script. Bins are refined using the ``polypanner refine_bins`` command.
 
 ### Site annotation
 
+Sites are annotated using the ``polypanner sites`` command.
+
 ### Output
 
+Genome bin trajectories are generated using the ``polypanner bin_trajectory`` command. Site trajectories are genrated using the ``polypanner site_trajectory``.

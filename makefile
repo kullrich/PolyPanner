@@ -101,18 +101,18 @@ test:
 	@echo "###################################"
 	@echo "######### UNIT TEST START #########"
 	@echo "###################################\n"
-	@echo "######### 1. constructing PP files"
+	@echo "\n######### 1. constructing PP files"
 	$(MAKE) construct_all
-	@echo "######### 2. removing seqeuncing errors"
+	@echo "\n######### 2. removing seqeuncing errors"
 	$(MAKE) merge filter restrict_all make_lib_table
-	@echo "######### 3. refining assembly"
+	@echo "\n######### 3. refining assembly"
 	$(MAKE) refine
-	@echo "######### 4.inferring genomes"
+	@echo "\n######### 4.inferring genomes"
 	$(MAKE) cov_matrix metaBAT post_metaBAT refine_bins
-	@echo "######### 5. inferring sites"
+	@echo "\n######### 5. inferring sites"
 	$(MAKE) sites
-	@echo "######### 6. output coverage trajectories"
+	@echo "\n######### 6. output coverage trajectories"
 	$(MAKE) bin_trajectory site_trajectory
-	@echo "##########################################"
+	@echo "\n##########################################"
 	@echo "######### UNIT TEST END: SUCCESS #########"
 	@echo "##########################################"
