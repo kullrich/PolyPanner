@@ -1,6 +1,6 @@
 # polypanner syntax
 
-All polypanner commands are called through the ```polypanner`` program. For example, to construct a POP file call:
+All polypanner commands are called through the ``polypanner`` program. For example, to construct a POP file call:
 
 ```
 bin/polypanner construct \
