@@ -66,7 +66,7 @@ void Dissolve::init_weights()
     transform(m_marg.begin(), m_marg.end(), m_weights.begin(), [mean,sd](const double t){ return abs(t-mean)/sd; });
 
     // sanity check
-    for_each(m_weights.begin(), m_weights.end(), [](const double t){ if(!isfinite(t) || t<0) { cout << "assert failed"; exit(-1); } });
+    for_each(m_weights.begin(), m_weights.end(), [](const double t){ if(!std::isfinite(t) || t<0) { cout << "assert failed"; exit(-1); } });
 
     // weight = 1/(|z|+1)
     transform(m_weights.begin(), m_weights.end(), m_weights.begin(), [](const double t){ return 1/(1+t); });

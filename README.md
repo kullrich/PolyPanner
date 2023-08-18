@@ -6,6 +6,24 @@ PolyPanner was developed by Eitan Yaffe (eitan.yaffe@gmail.com).
 
 ## Installation
 
+You will need to install gcc, gsl and boost. 
+
+On MacOS run:
+```
+brew install g++ gsl boost docker
+```
+
+On Ubuntu run:
+```
+apt-get update
+apt-get install git docker build-essential libgsl0-dev
+```
+
+Clone the repository from github:
+```
+git clone https://github.com/eitanyaffe/PolyPanner.git
+```
+
 ## Quick start
 
 ## Commands

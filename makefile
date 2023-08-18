@@ -1,7 +1,23 @@
 all: bin/polypanner
 
 ###############################################################################################
-# compile
+# flags
+###############################################################################################
+
+UNAME_S:=$(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+CFLAGS=-Wall -Wno-write-strings -std=c++0x -fext-numeric-literals
+endif
+ifeq ($(UNAME_S),Darwin)
+CFLAGS=-Wall -Wno-write-strings -std=c++0x \
+-Wno-pragmas
+endif
+
+LDFLAGS=-pthread -lgsl -lgslcblas
+CC=g++
+
+###############################################################################################
+# rules
 ###############################################################################################
 
 INSTALL_DIR=/makeshift-mnt/bin
@@ -36,10 +52,6 @@ cav_restrict.o \
 cav_info.o \
 cav_cov_mat.o)
 
-CFLAGS=-Wall -Wno-write-strings -std=c++0x -fext-numeric-literals
-LDFLAGS=-pthread -lgsl -lgslcblas
-CC=g++
-
 obj:
 	@mkdir -p $@
 bin:
@@ -53,6 +65,9 @@ bin/polypanner: obj bin $(OBJ)
 
 install: bin/polypanner
 	cp bin/polypanner $(INSTALL_DIR)
+
+clobber:
+	rm -rf bin/polypanner obj
 
 ###############################################################################################
 # unit test
