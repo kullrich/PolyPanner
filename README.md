@@ -84,3 +84,5 @@ Sites are annotated using the ``polypanner sites`` command.
 ### 8. Output
 
 Genome bin trajectories are generated using the ``polypanner bin_trajectory`` command. Site trajectories are genrated using the ``polypanner site_trajectory``.
+
+Other output files include the refined segment-bin table and the annotated site table. 
