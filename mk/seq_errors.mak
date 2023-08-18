@@ -2,21 +2,6 @@
 # filter seq errors
 ######################################################################################################
 
-# merge all libraries
-MERGE_POP?=$(OUTPUT_DIR)/merge.pop
-
-# all pop files
-ALL_POPS=$(addsuffix /lib.pop,$(addprefix $(OUTPUT_DIR)/,$(SAMPLES)))
-
-# segregating sites
-BASE_SITES?=$(OUTPUT_DIR)/base_sites
-
-# inferred error parameters
-ERROR_PARAMS?=$(OUTPUT_DIR)/error_params
-
-# pop file, resrticted to true segregating sites
-RESTRICT_POP?=$(OUTPUT_LIB_DIR)/restricted.pop
-
 merge:
 	bin/polypanner merge \
 		$(MERGE_POP) \

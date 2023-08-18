@@ -74,28 +74,28 @@ clobber:
 ###############################################################################################
 
 # shared test variables
-include test.mak
+include mk/base.mak
 
 # get input files
-include input.mak
+include mk/input.mak
 
 # construct PP files
-include construct.mak
+include mk/construct.mak
 
 # remove sequencing errors
-include seq_errors.mak
+include mk/seq_errors.mak
 
 # refine assembly
-include refine.mak
+include mk/refine.mak
 
 # infer genomes
-include genomes.mak
+include mk/genomes.mak
 
 # infer sites
-include sites.mak
+include mk/sites.mak
 
 # ouput trajectotries
-include trajectories.mak
+include mk/trajectories.mak
 
 test:
 	@echo "######### constructing PP files #########"

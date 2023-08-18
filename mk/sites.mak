@@ -2,8 +2,6 @@
 # identify polymorphic sites
 ######################################################################################################
 
-SITES_ANNOTATED?=$(OUTPUT_DIR)/sites_annotated
-
 sites:
 	bin/polypanner sites \
 	        -ifn_libs $(POP_TABLE) \

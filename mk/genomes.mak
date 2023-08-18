@@ -2,21 +2,6 @@
 # genome binning
 ######################################################################################################
 
-# fasta for segments
-SEGMENT_FASTA?=$(OUTPUT_DIR)/segments.fa
-
-# coverage matrix for segments 
-SEGMENT_COV_MATRIX?=$(OUTPUT_DIR)/segments.cov
-
-# metaBAT output
-SEGMENT_BIN_BASE?=$(OUTPUT_DIR)/seg_bin_base
-
-# base bins
-BASE_BINS?=$(OUTPUT_DIR)/base_bins
-
-# associate segment with bin
-SEG_BIN_FINAL?=$(OUTPUT_DIR)/seg_bin_final
-
 # generate coverage matrix 
 cov_matrix:
 	bin/polypanner cov_matrix \
