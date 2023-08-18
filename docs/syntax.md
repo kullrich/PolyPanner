@@ -71,7 +71,7 @@ usage: polypanner filter [options]
 
 ## polypanner restrict
 
-Restrict POP to a set of contigs.
+Restrict POP to true segregating sites, discarding sequencing errors.
 
 ```
 usage: polypanner restrict [options]
