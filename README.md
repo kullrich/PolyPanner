@@ -86,3 +86,23 @@ Sites are annotated using the ``polypanner sites`` command.
 Genome bin trajectories are generated using the ``polypanner bin_trajectory`` command. Site trajectories are genrated using the ``polypanner site_trajectory``.
 
 Other output files include the refined segment-bin table and the annotated site table. 
+
+## Output format
+
+### Site table
+
+Fields:
+- vid: Variant identifer
+- contig/coord: The contig and coordinate within contig
+- variant: String identifier of the variant.
+- segment: The segment.
+- bin: The genome bin.
+- var_count: Number of reads supporting the variant.
+- total_count: Number of reads supporting the position.
+- n_samples: Nunber of samples that have reads supporting the variant.
+- is_internal: Is variant close to segment edge.
+- variant_p: p-value of the test comparing the variant and the local coverages.
+- regional_p: p-value of the test comparing the local and regional coverages.
+- comp_p: p-value of the test comparing the complementary and regional coverages.
+
+Dynamic sites are defined as sites for which is_internal equals T, variant_p<X, regional_p>X and comp_p<X, where X=0.05.
