@@ -51,36 +51,36 @@ make test -n
 
 The standard PolyPanner workflow is detailed here below. The syntanx of PolyPanner commands and utility scripts is documented [here](docs/syntax.md). This includes all user-defined parameters.
 
-### Input
+### 1. Input
 
 The workflow input is composed of:
 - A co-assembly with a contig fasta file and a contig table (fields: contig and length).
 - A set of mapped paired DNA libraries in the SAM format (mapped separately for R1 and R2).
 
-### PP Construction
+### 2. PP Construction
 
 For each library, SAM files are converted to an internal PolyPanner tabular format using the ```utils/parse_bwa_sam.pl``` script. Read sides are paired using the ```utils/pair_reads.pl``` script. Paired reads are transformed into POP files, whcihrepresent mapped reads in an effificient manner that allows quick queries on each library.
 .
-### Removal of sequencing errors
+### 3. Removal of sequencing errors
 
 Libraries are merged into a single library using the ``polypanner merge`` command. Sequencing errors are identified and filtered out using the ``polypanner filter`` command. Libraries are resrticted to true segregrating sites using the ``polypanner restrict` command. A tab-delimited table with paths to the restricted libraries is generated using the ``utils/make_pop_table.r`` script.
 
-### Assembly refinement
+### 4. Assembly refinement
 
 Contigs are refined into segments using the ``polypanner refine`` command.
 
-### Genome binning 
+### 5. Genome binning 
 
-A segment coverage matrix is generated using the ``polypanner cov_matrix``. This matrix is compatible with metaBAT2. The output of the binning step is a tab-delimited segment-bin table  with 2 columns: segment and bin. The workflow can support other binning methods, just make sure to generate a segment-bin table. 
+Genome binning is performed by an external binning tool. To use metaBAT2, a segment coverage matrix (input for metaBAT2) is generated using the ``polypanner cov_matrix``. The output of the binning step is required to be a tab-delimited segment-bin table  with 2 columns: segment and bin. The workflow can support other binning methods, just make sure to generate the segment-bin table as specified. 
 
-### Genome refinement 
+### 6. Genome refinement 
 
 The segment-bin table is processed using the ``utils/bin_summary.r`` script. Bins are refined using the ``polypanner refine_bins`` command.
 
-### Site annotation
+### 7. Site annotation
 
 Sites are annotated using the ``polypanner sites`` command.
 
-### Output
+### 8. Output
 
 Genome bin trajectories are generated using the ``polypanner bin_trajectory`` command. Site trajectories are genrated using the ``polypanner site_trajectory``.
