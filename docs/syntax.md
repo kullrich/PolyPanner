@@ -200,6 +200,7 @@ Parse bwa SAM output into the input format supported by PolyPanner.
 
 ```
 usage: utils/parse_bwa_sam.pl <ifn> <ofn> <ofn stats>
+```
 
 ## perl utils/pair_reads.pl 
 
@@ -207,7 +208,6 @@ Pair read sides into single table.
 
 ```
 usage: utils/pair_reads.pl <read1 ifn> <read2 ifn> <select single mapped read with maximal field value> <ofn> <ofn stats>
-```
 ```
 
 ## Rscript utils/bin_summary.r 
