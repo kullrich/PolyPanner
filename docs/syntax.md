@@ -120,7 +120,7 @@ usage: polypanner cov_matrix [options]
 
 ## polypanner refine_bins
 
-Breakdown contigs into segments, on dangle coords with a transition in coverage distribution.
+Refine genome bins.
 
 ```
 usage: polypanner refine_bins [options]
