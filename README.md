@@ -87,7 +87,7 @@ Genome bin trajectories are generated using the ``polypanner bin_trajectory`` co
 
 Other output files include the refined segment-bin table and the annotated site table. 
 
-## Output format
+## Output formats
 
 ### Site table
 
