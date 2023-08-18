@@ -62,7 +62,7 @@ usage: polypanner filter [options]
  -ofn_error_params <fn>: Output table with segregating sites (mandatory)
 ```
 
-# restrict
+### restrict
 
 Restrict CAV to a set of contigs.
 

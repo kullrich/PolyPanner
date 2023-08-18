@@ -1,7 +1,7 @@
 all: bin/polypanner
 
 ###############################################################################################
-# compliation evironment
+# compile
 ###############################################################################################
 
 INSTALL_DIR=/makeshift-mnt/bin
@@ -58,33 +58,40 @@ install: bin/polypanner
 # unit test
 ###############################################################################################
 
-# input:
-# - paired fastq files
-# - assembly fasta (optional, requires megaHIT)
-# - mapped reads (optional, requires bwa)
+# shared test variables
+include test.mak
 
-# output:
-# - sites
-# - genomes
+# get input files
+include input.mak
 
-# assembly
-# mapping
-# pp construct
-# merge, filter errors
+# construct PP files
+include construct.mak
+
+# remove sequencing errors
+include seq_errors.mak
+
 # refine assembly
-# metabat2 binning
-# trimming bins
-# sites
+include refine.mak
 
-SAMPLES?=t1 t2 t3 t4
+# infer genomes
+include genomes.mak
 
-construct:
-	echo constrcuting polypanner file for sample $(SAMPLE)
-	echo polypanner construct
+# infer sites
+include sites.mak
 
-# construct polypanner files
-construct_all:
-	$(foreach S,$(SAMPLES),$(MAKE) construct SAMPLE=$S)
+# ouput trajectotries
+include trajectories.mak
 
 test:
+	@echo "######### constructing PP files #########"
 	$(MAKE) construct_all
+	@echo "######### removing seqeuncing errors #########"
+	$(MAKE) merge filter restrict_all
+	@echo "######### refining assembly #########"
+	$(MAKE) refine
+	@echo "######### inferring genomes #########"
+	$(MAKE) cov_matrix metaBAT post_metaBAT refine_bins
+	@echo "######### inferring sites #########"
+	$(MAKE) sites
+	@echo "######### output coverage trajectories #########"
+	$(MAKE) bin_trajectory site_trajectory
