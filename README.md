@@ -1,11 +1,11 @@
 # PolyPanner: Detecting polymorphic sites in complex microbial communities
 
-PolyPanner is a suite of algorithms that fascilate the detection of polymorphic variants in metagenomic assembled genomes. It leverages dense temporal sampling to improve assembly quality and identify high confidence polymorphic variants, called *dynamic variants*, which are polymorphic variants with a non-constant frequency over time, after taking into account read sampling stochasticity. The remaining variants, which we call spurious variants, reflect either homology between distinct populations (*ortholog variants*) or homology within a population due to duplicated genes (*paralog variants*), and are considered noise for our purpose of tracking competing alleles within a single bacterial population.
+PolyPanner is a suite of algorithms that fasicilate the detection of polymorphic variants in metagenomic assembled genomes. It leverages dense temporal sampling to improve assembly quality and identify high confidence polymorphic variants, called *dynamic variants*, which are polymorphic variants with frequency variation over time too large to be explained by read sampling stochasticity. The remaining variants, which we call spurious variants, reflect either homology between distinct populations (*ortholog variants*) or homology within a population due to duplicated genes (*paralog variants*), and are considered noise for our purpose of tracking competing alleles within a single bacterial population.
 
-As input, PolyPanner receives a set of shotgun DNA libraries that were aligned to a metagenomic co-assembly. As a form of data representation, alignments are transformed to single-nucleotide coverage vectors that represent library-specific read counts of perfect and mismatch alignments at each base pair in the co-assembly. 
+As input, PolyPanner receives a set of shotgun DNA libraries that have been aligned to a metagenomic co-assembly. As a form of data representation, alignments are transformed to single-nucleotide coverage vectors that represent library-specific read counts of perfect and mismatch alignments at each base pair in the co-assembly. 
 Tasks performed by PolyPanner are:
 - The modelling and removal of sequencing errors.
-- The refinement of assembly contigs into segments, through the introduction of breakpoints where there are aprupt transitions in coverage. These transitions likely reflect chimeric assembly breakpoints where the two sides of the breakpoint represent different populations. 
+- The refinement of assembly contigs into segments, through the introduction of breakpoints where there are abrupt transitions in coverage. These transitions likely reflect chimeric assembly breakpoints where the two sides of the breakpoint represent different populations. 
 - The refinement of genome bins, by trimming-out segments that differ in their coverage profiles.
 - The identification of *dynamic variants*.
 
@@ -49,7 +49,7 @@ make test -n
 ## Workflow overview
 
 
-The standard PolyPanner workflow is detailed here below. The syntanx of PolyPanner commands and utility scripts, including user-defined parameters, is documented [here](docs/syntax.md).
+The standard PolyPanner workflow is detailed below. The syntax of PolyPanner commands and utility scripts, including user-defined parameters, is documented [here](docs/syntax.md).
 
 ### 1. Input
 
@@ -59,11 +59,11 @@ The workflow input is composed of:
 
 ### 2. POP construction
 
-For each library, SAM files are converted to an internal PolyPanner tabular format using the ```utils/parse_bwa_sam.pl``` script. Read sides are paired using the ```utils/pair_reads.pl``` script. Paired reads are transformed into POP files, which represent mapped reads in an effificient manner that allows quick queries on each library.
+For each library, SAM files are converted to an internal PolyPanner tabular format using the ```utils/parse_bwa_sam.pl``` script. Read sides are paired using the ```utils/pair_reads.pl``` script. Paired reads are transformed into POP files, which represent mapped reads in an efficient manner that allows quick queries on each library.
 
 ### 3. Removal of sequencing errors
 
-Libraries are merged into a single library using the ``polypanner merge`` command. Sequencing errors are identified and filtered out using the ``polypanner filter`` command. Libraries are resrticted to true segregrating sites using the ``polypanner restrict`` command. A tab-delimited table with paths to the restricted libraries is generated using the ``utils/make_pop_table.r`` script.
+Libraries are merged into a single library using the ``polypanner merge`` command. Sequencing errors are identified and removed using the ``polypanner filter`` command. Libraries are restricted to true segregating sites using the ``polypanner restrict`` command. A tab-delimited table with paths to the restricted libraries is generated using the ``utils/make_pop_table.r`` script.
 
 ### 4. Assembly refinement
 
@@ -83,7 +83,7 @@ Sites are annotated using the ``polypanner sites`` command.
 
 ### 8. Output
 
-Genome bin trajectories are generated using the ``polypanner bin_trajectory`` command. Site trajectories are genrated using the ``polypanner site_trajectory``.
+Genome bin trajectories are generated using the ``polypanner bin_trajectory`` command. Site trajectories are generated using the ``polypanner site_trajectory``.
 
 Other output files include the refined segment-bin table and the annotated site table. 
 
