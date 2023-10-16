@@ -26,7 +26,7 @@ Linux: https://github.com/eitanyaffe/PolyPanner/releases/download/v1.0.0/polypan
 
 ### Compile from code
 
-You will need to install gcc, gsl and boost. Compilation should take under an hour.  
+Compilation was tested on macOS (Ventura 13.3.1) or Ubuntu (20.04.1). You will need to install gcc, gsl and boost. Compilation should take under an hour.
 
 On MacOS run:
 ```
