@@ -38,6 +38,7 @@ apt-get install libgsl0-dev
 
 If you are getting an error message such as ```error while loading shared libraries: libgsl.so.23``` you are likely using a new OS version (e.g. Ubuntu 22.04 instead of 20.04), and you need to compile PolyPanner from code.
 
+MacOS may not let you run PolyPanner because it can't verify developer. If that is the case you can go to System Settings > Privacy & Security > Security, and give permission for a security bypass.
 
 ### Compile from code
 
