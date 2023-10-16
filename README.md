@@ -17,8 +17,7 @@ You use pre-compiled binaries or compile from code.
 
 ### Use pre-compiled binaries
 
-
-Binaries for macOS (Ventura 13.3.1) or Ubuntu (20.04.1) are part of the release. You may need to run ```chmod +x $BINARY``` if they are not executable after downloading them.
+Binaries for macOS (Ventura 13.3.1) or Ubuntu (20.04.1) are part of the v1.0 release. You may need to run ```chmod +x $BINARY``` if they are not executable after downloading them.
 
 MacOS: https://github.com/eitanyaffe/PolyPanner/releases/download/v1.0.0/polypanner-v1.0.0-macOS-i386.macos
 
@@ -27,7 +26,7 @@ Linux: https://github.com/eitanyaffe/PolyPanner/releases/download/v1.0.0/polypan
 
 ### Compile from code
 
-You will need to install gcc, gsl and boost. 
+You will need to install gcc, gsl and boost. Compilation should take under an hour.  
 
 On MacOS run:
 ```
@@ -49,7 +48,7 @@ make
 
 ### Validate installation
 
-To validate the installation you can run the following unit test. Docker is required to run metaBAT2 during the unit test. The unit test runs on a small mock dataset composed of 4 DNA libraries, each with ~20k paired reads (2x150nt). 
+To validate the installation you can run the following unit test which should take under 20 seconds to complete. Docker is required to run metaBAT2 during the unit test. The unit test runs on a small mock dataset composed of 4 DNA libraries, each with ~20k paired reads (2x150nt). 
 
 ```
 make test
@@ -60,7 +59,6 @@ A recommended way to start using PolyPanner is by customizing the commands of th
 ```
 make test -n
 ```
-
 
 ## Workflow overview
 
