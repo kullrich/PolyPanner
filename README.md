@@ -11,9 +11,9 @@ Tasks performed by PolyPanner are:
 
 PolyPanner was developed by Eitan Yaffe (eitan.yaffe@gmail.com).
 
-## Installation 
+## Installation
 
-You use pre-compiled binaries or compile from code.
+You can use pre-compiled PolyPanner binaries or compile PolyPanner from code.
 
 ### Use pre-compiled binaries
 
@@ -22,6 +22,21 @@ Binaries for macOS (Ventura 13.3.1) or Ubuntu (20.04.1) are part of the v1.0 rel
 MacOS: https://github.com/eitanyaffe/PolyPanner/releases/download/v1.0.0/polypanner-v1.0.0-macOS-i386.macos
 
 Linux: https://github.com/eitanyaffe/PolyPanner/releases/download/v1.0.0/polypanner-v1.0.0-linux-x86-64.linux
+
+PolyPanner binaries depend on gsl.
+
+On MacOS run:
+```
+brew install gsl
+```
+
+On Ubuntu run:
+```
+apt-get update
+apt-get install libgsl0-dev
+```
+
+If you are getting an error message such as ```error while loading shared libraries: libgsl.so.23``` you are likely using a new OS version (e.g. Ubuntu 22.04 instead of 20.04), and you need to compile PolyPanner from code.
 
 
 ### Compile from code
