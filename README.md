@@ -13,7 +13,7 @@ PolyPanner was developed by Eitan Yaffe (eitan.yaffe@gmail.com).
 
 ## Installation 
 
-You run binaries pre-compiled  or compile from code.
+You use pre-compiled binaries or compile from code.
 
 ### Use pre-compiled binaries
 
