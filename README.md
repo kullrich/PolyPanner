@@ -149,9 +149,9 @@ See ```output/test/sites_annotated``` in the test output for an example.
 ### Segment table
 
 Fields:
-- segment: segment identifier
-- contig/start/end: The contig and coordinates of segment within contig
-- bin_org: Original bin assigned by binner
-- bin: Final bin identifier, after bin trimming
+- segment: segment identifier.
+- contig/start/end: The contig and coordinates of segment within contig.
+- bin_org: Original bin assigned by binner.
+- bin: Final bin identifier, after bin trimming.
 
 See ```output/test/seg_bin_final``` in the test output for an example.
