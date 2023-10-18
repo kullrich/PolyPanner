@@ -14,7 +14,12 @@ PolyPanner was developed by Eitan Yaffe (eitan.yaffe@gmail.com).
 
 ## Installation
 
-You can use pre-compiled PolyPanner binaries or compile PolyPanner from code.
+Clone the PolyPanner repository to a local directory of your choice:
+```
+git clone https://github.com/eitanyaffe/PolyPanner.git
+```
+
+Use pre-compiled PolyPanner binaries or compile PolyPanner from code, as follows.
 
 ### Use pre-compiled binaries
 
@@ -58,7 +63,6 @@ apt-get install git build-essential libgsl0-dev libboost-all-dev
 
 Clone the repository from github, and compile PolyPanner:
 ```
-git clone https://github.com/eitanyaffe/PolyPanner.git
 cd PolyPanner
 make
 ```
@@ -88,9 +92,11 @@ The workflow input is composed of:
 - A co-assembly with a contig fasta file and a contig table (fields: contig and length).
 - A set of mapped paired DNA libraries in the SAM format (mapped separately for R1 and R2).
 
+See files under the directory ```input/test``` for an example of input files.
+
 ### 2. POP construction
 
-For each library, SAM files are converted to an internal PolyPanner tabular format using the ```utils/parse_bwa_sam.pl``` script. Read sides are paired using the ```utils/pair_reads.pl``` script. Paired reads are transformed into POP files, which represent mapped reads in an efficient manner that allows quick queries on each library.
+The following three steps are done for each library: (1) SAM files are first converted to a tabular format using the ```utils/parse_bwa_sam.pl``` script, (2) read sides are paired using the ```utils/pair_reads.pl``` script, and (3) paired reads are transformed into POP files, which represent mapped reads in an efficient manner that allows quick queries on each library.
 
 ### 3. Removal of sequencing errors
 
