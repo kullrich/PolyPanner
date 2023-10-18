@@ -143,3 +143,15 @@ Fields:
 - comp_p: p-value of the test comparing the complementary and regional coverages.
 
 Dynamic sites are defined as sites for which is_internal equals T, variant_p<X, regional_p>X and comp_p<X, where X=0.05.
+
+See ```output/test/sites_annotated``` in the test output for an example.
+
+### Segment table
+
+Fields:
+- segment: segment identifier
+- contig/start/end: The contig and coordinates of segment within contig
+- bin_org: Original bin assigned by binner
+- bin: Final bin identifier, after bin trimming
+
+See ```output/test/seg_bin_final``` in the test output for an example.
