@@ -120,7 +120,8 @@ void fasta_init_params(const char* name, int argc, char **argv, Parameters& para
   params.add_parser("ifn_bins", new ParserFilename("input bin table"), true);
   params.add_parser("ifn_segments", new ParserFilename("input segment file, with bin field"), true);
   params.add_parser("min_length", new ParserInteger("minimal bin length", 10000), false);
-  params.add_parser("odir", new ParserFilename("output path"), true);
+  params.add_parser("odir", new ParserFilename("output path"), false);
+  params.add_parser("ofn", new ParserFilename("output file"), false);
   
   if (argc == 1) {
     params.usage(name);
@@ -143,8 +144,20 @@ int fasta_main(const char* name, int argc, char **argv)
   string ifn_bins = params.get_string("ifn_bins");
   string ifn_segments = params.get_string("ifn_segments");
   int min_length = params.get_int("min_length");
-  string odir = params.get_string("odir");
+  string odir = "";
+  string ofn = "";
+  
+  massert(params.is_defined("odir") || params.is_defined("ofn"), "ofn or odir must be defined");
 
+  bool output_to_dir = params.is_defined("odir");
+  bool output_to_file = params.is_defined("ofn");
+
+  if (output_to_dir)
+    odir = params.get_string("odir");
+  
+  if (output_to_file)
+    ofn = params.get_string("ofn");
+    
   // read bin table (bin -> length)
   map<string, int> bins;
   fasta_read_bins(ifn_bins, bins);
@@ -153,20 +166,46 @@ int fasta_main(const char* name, int argc, char **argv)
   map<string, string> contig_fasta;
   load_fasta(ifn_fasta, contig_fasta);
   
-  // bin fastas: (bin -> merged_segment -> sequence)
+  // bin fastas: (bin -> segment -> sequence)
   map<string, map < string, string > > bin_fasta;
   fasta_read_segments(ifn_segments, contig_fasta, bin_fasta);
 
-  for (map<string, int>::iterator it=bins.begin(); it!=bins.end(); ++it) {
-    string bin = (*it).first;
-    int length = (*it).second;
-    if (length < min_length)
-      continue;
-    string ofn = odir + "/" + bin + ".fa";
-    massert(bin_fasta.find(bin) != bin_fasta.end(), "bin %s not found", bin.c_str());
-    save_fasta(ofn, bin_fasta[bin]);
+  // output each bin in separate fasta file
+  if (output_to_dir) {
+    cout << "saving bin fasta files to " << odir << endl;
+    for (map<string, int>::iterator it=bins.begin(); it!=bins.end(); ++it) {
+      string bin = (*it).first;
+      int length = (*it).second;
+      if (length < min_length)
+	continue;
+      string ofn_bin = odir + "/" + bin + ".fa";
+      massert(bin_fasta.find(bin) != bin_fasta.end(), "bin %s not found", bin.c_str());
+      save_fasta(ofn_bin, bin_fasta[bin]);
+    }
   }
 	       
+  // output all bins in single fasta file
+  if (output_to_file) {
+    map<string, string> single_fasta;
+    for (map<string, int>::iterator it=bins.begin(); it!=bins.end(); ++it) {
+      string bin = (*it).first;
+      int length = (*it).second;
+      if (length < min_length)
+	continue;
+      massert(bin_fasta.find(bin) != bin_fasta.end(), "bin %s not found", bin.c_str());
+
+      // merge segments sequences
+      map<string, string>& segment_fasta = bin_fasta[bin];
+      string bin_seq = "";
+      for (map<string, string>::iterator it=segment_fasta.begin(); it!=segment_fasta.end(); ++it) {
+	string segment = (*it).first;
+	string seq = (*it).second;
+	bin_seq += seq;
+      }
+      single_fasta[bin] = bin_seq;
+    }
+    save_fasta(ofn, single_fasta);
+  }
   
   return 0;
 }
