@@ -128,7 +128,7 @@ void VariationSet::collect_coord_keys(map< string, set< int > >& keys)
 // Save Variation Set
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VariationSet::save_cav(ofstream& out)
+void VariationSet::save_cav(boost::iostreams::filtering_ostream& out)
 {
   // write number of contigs
   size_t size = m_vars.size();
@@ -171,11 +171,8 @@ void VariationSet::save_cav(ofstream& out)
   }
 }
 
-
-void VariationSet::load_cav(ifstream& in)
+void VariationSet::load_cav(boost::iostreams::filtering_istream& in)
 {
-  // cout << "loading POP maps" << endl;
-
   // load number of contigs
   size_t n_contigs;
   in.read(reinterpret_cast<char*>(&n_contigs), sizeof(n_contigs));
@@ -226,7 +223,8 @@ void VariationSet::load_cav(ifstream& in)
 // coverage load/save (VariationSet)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void VariationSet::save_map_count_vector(ofstream& out, map<string, vector<int> >& map_count)
+void VariationSet::save_map_count_vector(boost::iostreams::filtering_ostream& out,
+					 map<string, vector<int> >& map_count)
 {  
   size_t size = map_count.size();
   out.write(reinterpret_cast<const char*>(&size), sizeof(size));
@@ -251,7 +249,8 @@ void VariationSet::save_map_count_vector(ofstream& out, map<string, vector<int> 
   }
 }
 
-void VariationSet::load_map_count_vector(ifstream& in, map<string, vector<int> >& map_count)
+void VariationSet::load_map_count_vector(boost::iostreams::filtering_istream& in,
+					 map<string, vector<int> >& map_count)
 {
   // cout << "loading coverage vectors" << endl;
   // read number of contigs
@@ -289,10 +288,19 @@ const char* VariationSet::m_magicref = VariationSet_magicref;
 
 void VariationSet::save(string fn)
 {
-  cout << "saving POP file: " << fn << endl;
-  ofstream out(fn.c_str(), ios::out | ios::binary);
-  massert(out.is_open(), "could not open file %s", fn.c_str());
+  ofstream file(fn.c_str(), ios::out | ios::binary);
+  massert(file.is_open(), "could not open file %s", fn.c_str());
 
+  // adding compression filter if needed
+  boost::iostreams::filtering_ostream out;
+  if (fn.find(".gz") == fn.length()-3) {
+    cout << "saving compressed POP file: " << fn << endl;
+    out.push(boost::iostreams::gzip_compressor());
+  } else {
+    cout << "saving POP file: " << fn << endl;
+  }
+  out.push(file);
+  
   // save magic number
   out.write(m_magicref, 4);
 
@@ -304,15 +312,30 @@ void VariationSet::save(string fn)
   save_map_count_vector(out, m_covs_cs);
   save_map_count_vector(out, m_covs_noise);
   save_cav(out);
-  out.close();
+  
+  boost::iostreams::close(out);
+  file.close();
 }
+
+#include <boost/iostreams/device/file.hpp>
+#include <boost/iostreams/filtering_stream.hpp>
+#include <boost/iostreams/filter/gzip.hpp>
 
 void VariationSet::load(string fn)
 {
-  cout << "reading POP file: " << fn << endl;
-  ifstream in(fn.c_str());
-  massert(in.is_open(), "could not open file %s", fn.c_str());
+  ifstream file(fn.c_str());
+  massert(file.is_open(), "could not open file %s", fn.c_str());
 
+  // adding decompression filter if needed
+  boost::iostreams::filtering_istream in;
+  if (fn.find(".gz") == fn.length()-3) {
+    cout << "reading compressed POP file: " << fn << endl;
+    in.push(boost::iostreams::gzip_decompressor());
+  } else {
+    cout << "reading POP file: " << fn << endl;
+  }
+  in.push(file);
+  
   char magic[4];
   in.read(magic, 4);
   massert((memcmp(magic, m_magicref, sizeof(magic)) == 0), "magic number not found, check file format");
@@ -326,7 +349,8 @@ void VariationSet::load(string fn)
   load_map_count_vector(in, m_covs_noise);
   load_cav(in);
 
-  in.close();
+  boost::iostreams::close(in);
+  file.close();
 }
 
 void VariationSet::add_var_map(const map< string, map< int, map <Variation, int> > >& vars)
@@ -447,7 +471,10 @@ int VariationSet::get_coverage(const string contig, const int coord)
 int VariationSet::get_regional_coverage(const string contig, const int coord,
 					int regional_window, int contig_side_size)
 {
-  massert(m_covs.find(contig) != m_covs.end(), "contig not found");
+  if (m_covs.find(contig) == m_covs.end()) {
+    cout << "warning: contig not found: " << contig << endl;
+    return -1;
+  }
   int clen = m_covs.at(contig).size();
   int start = max(contig_side_size, coord-regional_window/2);
   int end = min(clen-contig_side_size, coord+regional_window/2);
@@ -745,7 +772,7 @@ void VariationSet::get_contig_data(string contig, int from, int to,
 {
   if (m_covs.find(contig) == m_covs.end())
     return;
-
+  
   vector<int>& contig_cov = m_covs[contig];
   map< int, map <Variation, int> >& contig_vars = m_vars[contig];
 
@@ -774,7 +801,7 @@ void VariationSet::get_contig_data(string contig, int from, int to,
 
     // add ref
     int ref_cov = total_cov - cumsum;
-    if (ref_cov != 0) {
+    if (ref_cov != 0 || total_cov == 0) {
       contig_r.push_back(contig);
       coord_r.push_back(coord);
       var_r.push_back("none");

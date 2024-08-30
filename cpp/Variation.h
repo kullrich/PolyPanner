@@ -20,6 +20,11 @@
 
 #include <dirent.h>
 
+#include <boost/iostreams/filtering_streambuf.hpp>
+#include <boost/iostreams/filter/gzip.hpp>
+#include <boost/iostreams/filtering_stream.hpp>
+#include <boost/iostreams/device/file.hpp>
+
 using namespace std;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,8 +66,8 @@ class Variation {
   Variation();
   Variation(string str);
 
-  void save(ofstream& out);
-  void load(ifstream& in);
+  void save(boost::iostreams::filtering_ostream& out);
+  void load(boost::iostreams::filtering_istream& in);
 
   void add_sub(string nt);
   void add_delete(int length);

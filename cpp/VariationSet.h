@@ -1,6 +1,11 @@
 #ifndef __VARIATIONSET__
 #define __VARIATIONSET__
 
+#include <boost/iostreams/filtering_streambuf.hpp>
+#include <boost/iostreams/filter/gzip.hpp>
+#include <boost/iostreams/filtering_stream.hpp>
+#include <boost/iostreams/device/file.hpp>
+
 #include "Variation.h"
 
 using namespace std;
@@ -40,11 +45,11 @@ class VariationSet {
   vector<int> m_read_length_vec;
   double m_mean_read_length;
 
-  void save_map_count_vector(ofstream& out, map<string, vector<int> >& map_count);
-  void load_map_count_vector(ifstream& in, map<string, vector<int> >& map_count);
+  void save_map_count_vector(boost::iostreams::filtering_ostream& out, map<string, vector<int> >& map_count);
+  void load_map_count_vector(boost::iostreams::filtering_istream& in, map<string, vector<int> >& map_count);
   
-  void save_cav(ofstream& out);
-  void load_cav(ifstream& in);
+  void save_cav(boost::iostreams::filtering_ostream& out);
+  void load_cav(boost::iostreams::filtering_istream& in);
 
   void add_var_map(const map< string, map< int, map <Variation, int> > >& vars);
 

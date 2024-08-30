@@ -32,6 +32,6 @@ restrict_all:
 make_lib_table:
 	Rscript utils/make_pop_table.r \
 		$(OUTPUT_DIR) \
-		restricted.pop \
+		restricted.pop.gz \
 		$(POP_TABLE) \
 		$(SAMPLES)

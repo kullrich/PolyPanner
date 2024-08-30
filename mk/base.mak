@@ -49,14 +49,14 @@ READS_NON_PAIRED_R2?=$(OUTPUT_LIB_DIR)/non_paired_R2
 PAIR_STATS?=$(OUTPUT_LIB_DIR)/pair.stats
 
 # PP file
-LIB_POP?=$(OUTPUT_LIB_DIR)/lib.pop
+LIB_POP?=$(OUTPUT_LIB_DIR)/lib.pop.gz
 
 ######################################################################################################
 # seq_errors.mak
 ######################################################################################################
 
 # merge all libraries
-MERGE_POP?=$(OUTPUT_DIR)/merge.pop
+MERGE_POP?=$(OUTPUT_DIR)/merge.pop.gz
 
 # all pop files
 ALL_POPS=$(addsuffix /lib.pop,$(addprefix $(OUTPUT_DIR)/,$(SAMPLES)))
@@ -68,7 +68,7 @@ BASE_SITES?=$(OUTPUT_DIR)/base_sites
 ERROR_PARAMS?=$(OUTPUT_DIR)/error_params
 
 # pop file, resrticted to true segregating sites
-RESTRICT_POP?=$(OUTPUT_LIB_DIR)/restricted.pop
+RESTRICT_POP?=$(OUTPUT_LIB_DIR)/restricted.pop.gz
 
 ######################################################################################################
 # refine.mak

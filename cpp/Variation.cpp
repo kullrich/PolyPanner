@@ -1,6 +1,7 @@
 #include <cstring>
 #include "Variation.h"
 #include "util.h"
+
 using namespace std;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,7 +190,7 @@ bool Variation::has_type(VariType type)
   return (m_type_bitmap & 1<<type);
 }
 
-void Variation::save(ofstream& out)
+void Variation::save(boost::iostreams::filtering_ostream& out)
 {
   // write m_type_bitmap
   out.write(reinterpret_cast<const char*>(&m_type_bitmap), sizeof(int));
@@ -218,7 +219,7 @@ void Variation::save(ofstream& out)
   out.write(reinterpret_cast<const char*>(&m_adj_strand), sizeof(bool));
 }
 
-void Variation::load(ifstream& in)
+void Variation::load(boost::iostreams::filtering_istream& in)
 {
   // read m_type_bitmap
   in.read(reinterpret_cast<char*>(&m_type_bitmap), sizeof(int));

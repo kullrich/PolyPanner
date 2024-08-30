@@ -13,7 +13,7 @@ CFLAGS=-Wall -Wno-write-strings -std=c++0x \
 -Wno-pragmas
 endif
 
-LDFLAGS=-pthread -lgsl -lgslcblas
+LDFLAGS=-pthread -lgsl -lgslcblas -lboost_iostreams
 CC=g++
 
 ###############################################################################################
