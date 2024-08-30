@@ -56,10 +56,10 @@ int info_main(const char* name, int argc, char **argv)
   cout << "number of unique variants: " << unique_count << endl;
   cout << "number of reads supporting variants: " << vcount << endl;
 
-  cout << "contigs:";
-  for (unsigned int i=0; i<contigs.size(); ++i)
-    cout << " " << contigs[i];
-  cout << endl;
+  //  cout << "contigs:";
+  // for (unsigned int i=0; i<contigs.size(); ++i)
+  //   cout << " " << contigs[i];
+  // cout << endl;
   
   return 0;
 }
