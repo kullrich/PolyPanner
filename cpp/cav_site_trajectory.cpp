@@ -117,8 +117,8 @@ int site_trajectory_main(const char* name, int argc, char **argv)
   // print header
   ///////////////////////////////////////////////////////////////////////////////////////
 
-  out_counts << "contig\tcoord\tvariant\tbin";
-  out_totals << "contig\tcoord\tvariant\tbin";
+  out_counts << "vid\tcontig\tcoord\tvariant\tbin";
+  out_totals << "vid\tcontig\tcoord\tvariant\tbin";
   for (int i=0; i<nlibs; ++i) {
     out_counts << "\t" << "t" << i+1;
     out_totals << "\t" << "t" << i+1;
@@ -130,6 +130,7 @@ int site_trajectory_main(const char* name, int argc, char **argv)
   // go over all sites
   ///////////////////////////////////////////////////////////////////////////////////////
 
+  int index = 1;
   for (map< string, map< int, set< Variation > > >::iterator it=keys.begin(); it!=keys.end(); ++it) {
     string contig = (*it).first;
     map< int, set< Variation > >& keys_contig = (*it).second;
@@ -145,8 +146,9 @@ int site_trajectory_main(const char* name, int argc, char **argv)
       for (set< Variation >::iterator kt=keys_coord.begin(); kt != keys_coord.end(); ++kt) {
 	Variation var = (*kt);
 
-	out_counts << contig << "\t" << coord+1 << "\t" << var << "\t" << bin;
-	out_totals << contig << "\t" << coord+1 << "\t" << var << "\t" << bin;
+	string vid = string("v") + std::to_string(index++);
+	out_counts << vid << "\t" << contig << "\t" << coord+1 << "\t" << var << "\t" << bin;
+	out_totals << vid << "\t" << contig << "\t" << coord+1 << "\t" << var << "\t" << bin;
 	
 	for (int i=0; i<nlibs; ++i) {
 	  VariationSet& cav = cavs[i];
