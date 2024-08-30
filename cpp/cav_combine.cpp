@@ -118,11 +118,14 @@ int combine_main(const char* name, int argc, char **argv)
     string aid = (*it).first;
     string fn = (*it).second;
 
+    // skip entire assembly if no contigs associated with it
+    if (contigs.find(aid) == contigs.end())
+      continue;
+    
     // load cav file
     VariationSet vs;
     vs.load(fn);
 
-    massert(contigs.find(aid) != contigs.end(), "aid not found: %s", aid.c_str());
     set< string >& contigs_aid = contigs[aid];
     for (set< string >::iterator jt = contigs_aid.begin(); jt != contigs_aid.end(); ++jt) {
       string s_contig = *jt;
