@@ -14,7 +14,7 @@ cov_matrix:
 
 # call metaBAT 
 metaBAT:
-	mkdir -p /tmp/pp
+	rm -rf /tmp/pp && mkdir -p /tmp/pp
 	cp $(SEGMENT_FASTA) $(SEGMENT_COV_MATRIX) /tmp/pp
 	docker run -it --rm \
 		-v /var/run/docker.sock:/var/run/docker.sock \
@@ -24,7 +24,7 @@ metaBAT:
 			-i /work/segments.fa \
 			-a /work/segments.cov \
 			-o /work/out
-	cp /tmp/pp/out $(SEGMENT_BIN_BASE)
+	cp /tmp/pp/out.MemberMatrix.txt $(SEGMENT_BIN_BASE)
 
 post_metaBAT:
 	Rscript utils/bin_summary.r \
