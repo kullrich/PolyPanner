@@ -1,5 +1,6 @@
 #include <Rcpp.h>
 #include "VariationSet.h"
+#include "util.h"
 
 using namespace Rcpp;
 using namespace std;
@@ -209,3 +210,183 @@ DataFrame cav_freq_summary(Rcpp::XPtr<VariationSet> xptr, DataFrame df)
 				       Named("freq") = freq_r);
   return result;
 }
+
+// [[Rcpp::export]]
+int cav_regional_cov(Rcpp::XPtr<VariationSet> xptr,
+			   string contig, int coord, int regional_window, int contig_side_size)
+{
+  Rcpp::XPtr<VariationSet> varset(xptr);
+  return varset->get_regional_coverage(contig, coord, regional_window, contig_side_size);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// annotate sites
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool sites_is_internal(string contig, int coord, int margin,
+		       Rcpp::XPtr<map< string, set< Segment > > > segs_p)
+{
+  map< string, set< Segment > >& segs = *segs_p;
+  if (segs.find(contig) == segs.end())
+    return false;
+  set<Segment>& csegs = segs[contig];
+
+  auto it = upper_bound(csegs.begin(), csegs.end(), coord,
+  			[](int coord, const Segment& seg)
+			{ return coord < seg.end; });
+  if (it == csegs.end()) {
+    return false;
+  } else {
+    return coord >= (it->start + margin) && coord <= (it->end - margin);
+  }
+}
+
+// [[Rcpp::export]]
+Rcpp::XPtr<map< string, set< Segment > > > cav_build_segments(DataFrame df)
+{
+  StringVector segment_v = df["segment"];
+  StringVector contig_v = df["contig"];
+  IntegerVector start_v = df["start"];
+  IntegerVector end_v = df["end"];
+
+  map< string, set< Segment > >* segs = new map< string, set< Segment > >;
+  for (unsigned int i=0; i<segment_v.size(); ++i) {
+    string seg_id = as<string>(segment_v[i]);
+    string contig = as<string>(contig_v[i]);
+    int start = start_v[i] - 1;
+    int end = end_v[i] - 1;
+    
+    Segment seg(seg_id, contig, start, end);
+    (*segs)[contig].insert(seg);
+  }
+
+  Rcpp::XPtr<map< string, set< Segment > > > result(segs, true);
+  return result;
+}
+
+
+// [[Rcpp::export]]
+DataFrame cav_annotate_sites(Rcpp::XPtr<VariationSet> varset,
+			     List vsets,
+			     double pseudo_count,
+			     int regional_window, int margin,
+			     Rcpp::XPtr<map< string, set< Segment > > > segs_p,
+			     DataFrame df)
+{
+  StringVector contig_v = df["contig"];
+  IntegerVector from_v = df["from"];
+  IntegerVector to_v = df["to"];
+
+  vector<string> contig_r;
+  vector<int> coord_r;
+  vector<string> var_r;
+  vector<int> count_r;
+  vector<int> total_r;
+  vector<int> n_samples_r;
+  vector<bool> is_internal_r;
+  vector<double> variant_p_r;
+  vector<double> regional_p_r;
+  vector<double> comp_p_r;
+
+  map< string, map< int, map <Variation, int> > >& vars = varset->get_vars();
+  
+  int N = vsets.length();
+  for (unsigned int i=0; i<contig_v.size(); ++i) {
+    string contig = as<string>(contig_v[i]);
+    // int from = from_v[i] - 1;
+    // int to = to_v[i] - 1;
+
+    if (vars.find(contig) == vars.end())
+      continue;
+    
+    map< int, map <Variation, int> >& vars_contig = vars[contig];
+    for (map< int, map <Variation, int> >::iterator jt=vars_contig.begin(); jt != vars_contig.end(); ++jt) {
+      int coord = (*jt).first;
+      map <Variation, int> vars_coord = (*jt).second;
+
+      // get total coverage
+      int coord_cov = varset->get_coverage(contig, coord);
+
+      // correspondance between local and regional total coverage vectors
+      vector<double> loc_v(N);
+      vector<double> reg_v(N);
+      for (int i=0; i<N; ++i) {
+	Rcpp::XPtr<VariationSet> v = vsets[i];	
+	loc_v[i] = v->get_coverage(contig, coord) + pseudo_count;
+	reg_v[i] = v->get_regional_coverage(contig, coord, regional_window, margin) + pseudo_count;
+      }
+      double p_reg = chi_square_test_p(loc_v, reg_v);
+
+      // margin from segment sides, as defined in the input
+      // int is_internal = coord >= (from + margin) && coord <= (to - margin);
+      int is_internal = sites_is_internal(contig, coord, margin, segs_p);
+      
+      for (map <Variation, int>::iterator xt=vars_coord.begin(); xt!=vars_coord.end(); ++xt) {
+	Variation var = (*xt).first;
+	int var_cov = varset->get_var_count(contig, coord, var);
+
+	// count number of unique samples
+	int n_samples = 0;
+	
+	// variant vector
+	vector<double> var_v(N);
+	vector<double> comp_v(N);
+	for (int i=0; i<N; ++i) {
+	  Rcpp::XPtr<VariationSet> v = vsets[i];	
+	  int v_count = v->get_var_count(contig, coord, var);
+	  if (v_count > 0)
+	    n_samples++;
+	  var_v[i] = v_count + pseudo_count;
+	  comp_v[i] = loc_v[i] - var_v[i] + pseudo_count;
+	}
+	// compare variant and local total coverage 
+	double p_var = chi_square_test_p(loc_v, var_v);
+
+	// compare complement of variant with regional
+	double p_comp = chi_square_test_p(comp_v, reg_v);
+
+	// output
+	contig_r.push_back(contig);
+	coord_r.push_back(coord+1);
+	var_r.push_back(var.to_string());
+	count_r.push_back(var_cov);
+	total_r.push_back(coord_cov);
+	n_samples_r.push_back(n_samples);
+	is_internal_r.push_back(is_internal);
+	variant_p_r.push_back(p_var);
+	regional_p_r.push_back(p_reg);
+	comp_p_r.push_back(p_comp);
+      }
+    }
+  }
+
+  DataFrame result = DataFrame::create(Named("contig") = contig_r,
+				       Named("coord") = coord_r,
+				       Named("var") = var_r,
+				       Named("count") = count_r,
+				       Named("total") = total_r,
+				       Named("n_samples") = n_samples_r,
+				       Named("is_internal") = is_internal_r,
+				       Named("variant_p") = variant_p_r,
+				       Named("regional_p") = regional_p_r,
+				       Named("comp_p") = comp_p_r);
+  
+  return result;
+}
+
+// [[Rcpp::export]]
+Rcpp::XPtr<VariationSet> cav_add(List vsets)
+{
+  VariationSet* vset = new VariationSet;
+  Rcpp::XPtr<VariationSet> v1 = vsets[0];
+
+  *vset = *v1;
+  int N = vsets.length();
+  for (int i=1; i<N; ++i) {
+    Rcpp::XPtr<VariationSet> v = vsets[i];	
+    *vset = *vset + *v;
+  }
+  Rcpp::XPtr<VariationSet> result(vset, true);
+  return result;
+}
+
