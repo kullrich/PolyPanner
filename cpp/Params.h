@@ -140,6 +140,9 @@ class Parameters {
   // verify all mandatory params
   void verify_mandatory();
 
+  // check if parameter is defined
+  bool is_defined(string id) { return (m_values.find(id) != m_values.end()); };
+  
   const int get_int(string id) { return get_parser(id)->to_int(); };
   const double get_double(string id) { return get_parser(id)->to_double(); };
   const string get_string(string id) { return get_parser(id)->to_string(); };
