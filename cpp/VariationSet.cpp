@@ -293,12 +293,8 @@ void VariationSet::save(string fn)
 
   // adding compression filter if needed
   boost::iostreams::filtering_ostream out;
-  if (fn.find(".gz") == fn.length()-3) {
-    cout << "saving compressed POP file: " << fn << endl;
-    out.push(boost::iostreams::gzip_compressor());
-  } else {
-    cout << "saving POP file: " << fn << endl;
-  }
+  cout << "saving POP file: " << fn << endl;
+  out.push(boost::iostreams::gzip_compressor());
   out.push(file);
   
   // save magic number
@@ -328,12 +324,8 @@ void VariationSet::load(string fn)
 
   // adding decompression filter if needed
   boost::iostreams::filtering_istream in;
-  if (fn.find(".gz") == fn.length()-3) {
-    cout << "reading compressed POP file: " << fn << endl;
-    in.push(boost::iostreams::gzip_decompressor());
-  } else {
-    cout << "reading POP file: " << fn << endl;
-  }
+  cout << "reading POP file: " << fn << endl;
+  in.push(boost::iostreams::gzip_decompressor());
   in.push(file);
   
   char magic[4];

@@ -96,9 +96,7 @@ See files under the directory ```input/test``` for an example of input files.
 
 ### 2. POP construction
 
-The following three steps are done for each library: (1) SAM files are first converted to a tabular format using the ```utils/parse_bwa_sam.pl``` script, (2) read sides are paired using the ```utils/pair_reads.pl``` script, and (3) paired reads are transformed into POP files, which represent mapped reads in an efficient manner that allows quick queries on each library. 
-
-Gzip compression is automitically applied when constructing and using POP files when filenames have a '.gz' suffix.
+The following three steps are done for each library: (1) SAM files are first converted to a tabular format using the ```utils/parse_bwa_sam.pl``` script, (2) read sides are paired using the ```utils/pair_reads.pl``` script, and (3) paired reads are transformed into POP files, which represent mapped reads in an efficient manner that allows quick queries on each library. POP files are internally compressed using gzip.
 
 ### 3. Removal of sequencing errors
 
