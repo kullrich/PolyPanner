@@ -27,6 +27,7 @@ void bin_trajectory_init_params(const char* name, int argc, char **argv, Paramet
 {
   params.add_parser("ifn_libs", new ParserFilename("Table with multiple POP files"), true);
   params.add_parser("ifn_segments", new ParserFilename("input table with binned segments"), true);
+  params.add_parser("bin_field", new ParserString("bin field"), true);
   params.add_parser("ofn", new ParserFilename("output matrix with bin reads counts per sample"), true);
 
   if (argc == 1) {
@@ -49,6 +50,7 @@ int bin_trajectory_main(const char* name, int argc, char **argv)
   string ifn_libs = params.get_string("ifn_libs");
   string ifn_segments = params.get_string("ifn_segments");
   string ofn = params.get_string("ofn");
+  string bin_field = params.get_string("bin_field");
   
   vector< string > ifns;
   read_library_table(ifn_libs, ifns);
@@ -64,7 +66,7 @@ int bin_trajectory_main(const char* name, int argc, char **argv)
 
   // bin -> segments
   map< string, vector< Segment > > bins;
-  read_binned_segments(ifn_segments, "bin", bins);
+  read_binned_segments(ifn_segments, bin_field, bins);
 
   cout << "saving count matrix: " << ofn << endl;
   ofstream out(ofn.c_str());
@@ -74,7 +76,7 @@ int bin_trajectory_main(const char* name, int argc, char **argv)
   // print header
   ///////////////////////////////////////////////////////////////////////////////////////
 
-  out << "bin";
+  out << bin_field;
   for (int i=0; i<nlibs; ++i)
     out << "\t" << "t" << i+1;
   out << endl;
