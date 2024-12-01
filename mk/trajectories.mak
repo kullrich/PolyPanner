@@ -6,6 +6,7 @@ bin_trajectory:
 	bin/polypanner bin_trajectory \
 	        -ifn_libs $(POP_TABLE) \
 	        -ifn_segments $(SEG_BIN_FINAL) \
+		-bin_field bin \
 	        -ofn $(BIN_TRAJECTORY)
 
 site_trajectory:

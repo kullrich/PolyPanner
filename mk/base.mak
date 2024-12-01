@@ -59,7 +59,7 @@ LIB_POP?=$(OUTPUT_LIB_DIR)/lib.pop.gz
 MERGE_POP?=$(OUTPUT_DIR)/merge.pop.gz
 
 # all pop files
-ALL_POPS=$(addsuffix /lib.pop,$(addprefix $(OUTPUT_DIR)/,$(SAMPLES)))
+ALL_POPS=$(addsuffix /lib.pop.gz,$(addprefix $(OUTPUT_DIR)/,$(SAMPLES)))
 
 # segregating sites
 BASE_SITES?=$(OUTPUT_DIR)/base_sites
