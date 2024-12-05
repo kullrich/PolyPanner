@@ -16,10 +16,9 @@ cov_matrix:
 metaBAT:
 	rm -rf /tmp/pp && mkdir -p /tmp/pp
 	cp $(SEGMENT_FASTA) $(SEGMENT_COV_MATRIX) /tmp/pp
-	docker run -it --rm \
-		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v /tmp/pp:/work \
-	        metabat/metabat:latest \
+	singularity exec \
+		--bind /tmp/pp:/work \
+	        docker://metabat/metabat:latest \
 	        metabat2 -s 1500 -m 1500 --maxP 95 --minS 60 --maxEdges 200 --seed 1 -l --saveCls \
 			-i /work/segments.fa \
 			-a /work/segments.cov \
